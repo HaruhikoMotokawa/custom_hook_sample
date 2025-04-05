@@ -8,7 +8,7 @@ part 'provider.g.dart';
 @freezed
 class BackgroundColorState with _$BackgroundColorState {
   const factory BackgroundColorState({
-    @Default(Colors.white) Color backgroundColor,
+    @Default(Colors.white) Color color,
   }) = _BackgroundColorState;
 }
 
@@ -20,7 +20,7 @@ class BackgroundColor extends _$BackgroundColor {
   }
 
   Future<void> changeColor() async {
-    final color = switch (state.backgroundColor) {
+    final color = switch (state.color) {
       Colors.white => Colors.blue,
       Colors.blue => Colors.green,
       Colors.green => Colors.red,
@@ -31,6 +31,6 @@ class BackgroundColor extends _$BackgroundColor {
     // 10秒待つ
     await Future<void>.delayed(const Duration(seconds: 10));
 
-    state = state.copyWith(backgroundColor: color);
+    state = state.copyWith(color: color);
   }
 }
