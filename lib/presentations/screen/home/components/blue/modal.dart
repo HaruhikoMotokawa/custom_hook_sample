@@ -16,9 +16,12 @@ class BlueModal extends HookConsumerWidget {
   static Future<BlueModalResult?> show(BuildContext context) async {
     return showModalBottomSheet<BlueModalResult?>(
       context: context,
+      showDragHandle: true,
       builder: (context) => const BlueModal(),
     );
   }
+
+  static const _itemIds = ['A', 'B', 'C'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,38 +38,57 @@ class BlueModal extends HookConsumerWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 40,
+        spacing: 14,
         children: [
-          TextField(
-            controller: textController,
-            decoration: const InputDecoration(
-              labelText: 'Enter text',
-              border: OutlineInputBorder(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: TextField(
+              controller: textController,
+              decoration: const InputDecoration(
+                labelText: 'Enter text',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: viewModel.setInputText,
             ),
-            onChanged: viewModel.setInputText,
           ),
           SwitchListTile(
             value: state.isSwitchOn,
             title: const Text('Switch'),
             onChanged: viewModel.setSwitch,
           ),
-          ElevatedButton(
-            onPressed: viewModel.setSelectedItems,
-            style: state.selectedItems.isNotEmpty
-                ? ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                  )
-                : null,
-            child: const Text('Select Items'),
+          CheckboxListTile(
+            value: state.selectedItems.contains(_itemIds[0]),
+            title: const Text('Select Item A'),
+            onChanged: (_) {
+              viewModel.setSelectedItems(_itemIds[0]);
+            },
           ),
-          ElevatedButton(
-            onPressed: state.isDoneEnabled
-                ? () {
-                    final result = viewModel.getResult();
-                    Navigator.pop(context, result);
-                  }
-                : null,
-            child: const Text('Done'),
+          CheckboxListTile(
+            value: state.selectedItems.contains(_itemIds[1]),
+            title: const Text('Select Item B'),
+            onChanged: (_) {
+              viewModel.setSelectedItems(_itemIds[1]);
+            },
+          ),
+          CheckboxListTile(
+            value: state.selectedItems.contains(_itemIds[2]),
+            title: const Text('Select Item C'),
+            onChanged: (_) {
+              viewModel.setSelectedItems(_itemIds[2]);
+            },
+          ),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: state.isDoneEnabled
+                  ? () {
+                      final result = viewModel.getResult();
+                      Navigator.pop(context, result);
+                    }
+                  : null,
+              child: const Text('Done'),
+            ),
           ),
         ],
       ),

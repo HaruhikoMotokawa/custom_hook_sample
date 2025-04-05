@@ -43,9 +43,19 @@ class BlueModalViewModel extends _$BlueModalViewModel {
     state = state.copyWith(isSwitchOn: value);
   }
 
-  void setSelectedItems() {
-    final items = List<String>.generate(10, (index) => 'Item $index').toSet();
-    state = state.copyWith(selectedItems: items);
+  void setSelectedItems(String itemId) {
+    final isSelected = state.selectedItems.contains(itemId);
+    final updateItems = <String>{};
+    if (isSelected) {
+      updateItems
+        ..addAll(state.selectedItems)
+        ..remove(itemId);
+    } else {
+      updateItems
+        ..addAll(state.selectedItems)
+        ..add(itemId);
+    }
+    state = state.copyWith(selectedItems: updateItems);
   }
 
   BlueModalResult getResult() => (
