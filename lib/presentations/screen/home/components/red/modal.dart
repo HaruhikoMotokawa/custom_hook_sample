@@ -22,6 +22,7 @@ class RedModal extends HookWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 40,
         children: [
+          const Text('Red Modal'),
           SwitchListTile(
             value: isAppleSwitch.value,
             onChanged: (value) => isAppleSwitch.value = value,
@@ -37,7 +38,7 @@ class RedModal extends HookWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('close'),
+              child: const Text('Close'),
             ),
           ),
         ],

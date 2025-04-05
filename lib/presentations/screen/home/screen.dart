@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () => RedModal.show(context),
-                child: const Text('simple Custom Hook'),
+                child: const Text('Simple Custom Hook'),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     await _showBanner(context, message);
                   }
                 },
-                child: const Text('ViewModel'),
+                child: const Text('View Model'),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                     await _showBanner(context, message);
                   }
                 },
-                child: const Text('CustomHook'),
+                child: const Text('Custom Hook'),
               ),
               const Divider(),
               Consumer(

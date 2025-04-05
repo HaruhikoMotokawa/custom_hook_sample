@@ -40,6 +40,7 @@ class BlueModal extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 14,
         children: [
+          const Text('Blue Modal'),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
