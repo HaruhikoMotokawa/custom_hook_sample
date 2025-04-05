@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+typedef BlueModalResult = ({
+  String inputText,
+  bool isSwitchOn,
+  Set<String> selectedItems,
+});
+
 class BlueModal extends HookConsumerWidget {
   const BlueModal({super.key});
 
@@ -67,9 +73,3 @@ class BlueModal extends HookConsumerWidget {
     );
   }
 }
-
-typedef BlueModalResult = ({
-  String inputText,
-  bool isSwitchOn,
-  Set<String> selectedItems,
-});
