@@ -6,7 +6,7 @@ typedef _ModalController = ({
   bool isDoneEnabled,
   TextEditingController textController,
   VoidCallback setSwitch,
-  VoidCallback setSelectedItems,
+  void Function(String itemId) selectItem,
   OrangeModalResult Function() getResult,
 });
 
@@ -19,22 +19,29 @@ _ModalController _useModalController(WidgetRef ref) {
   // <- modalの状態を定義
 
   // INFO: 値の変更を監視して、副作用の処理を定義 ->
+  // 背景色の変更を監視
   ref.listen(backgroundColorProvider, (_, __) {
+    // 初期値に戻す
     textController.clear();
     isSwitchOn.value = false;
     selectedItems.value = {};
   });
 
-  // textController,selectedItems,isSwitchOnの値が編集されたら
-  // isDoneEnabledの値をtrueにする
+  // textControllerの入力状態を監視
+  final textIsNotEmpty = useListenableSelector(
+    textController,
+    () => textController.text.isNotEmpty,
+  );
+
+  // [textIsNotEmpty], [isSwitchOn], [selectedItems]の値を監視
+  // 上記の3つが全て編集された場合はisDoneEnabledの値をtrueにする
   useEffect(
     () {
-      isDoneEnabled.value = textController.text.isNotEmpty &&
-          isSwitchOn.value &&
-          selectedItems.value.isNotEmpty;
+      isDoneEnabled.value =
+          textIsNotEmpty && isSwitchOn.value && selectedItems.value.isNotEmpty;
       return null;
     },
-    [textController, isSwitchOn.value, selectedItems.value],
+    [textIsNotEmpty, isSwitchOn.value, selectedItems.value],
   );
   // <- 値の変更を監視して、副作用の処理を定義
 
@@ -42,10 +49,16 @@ _ModalController _useModalController(WidgetRef ref) {
   /// isSwitchOnの入力
   void setSwitch() => isSwitchOn.value = !isSwitchOn.value;
 
-  /// selectedItemsの入力
-  void setSelectedItems() {
-    final items = List<String>.generate(10, (index) => 'Item $index').toSet();
-    selectedItems.value = items;
+  /// itemを選択する
+  void selectItem(String itemId) {
+    final isSelected = selectedItems.value.contains(itemId);
+    final updateItems = <String>{}..addAll(selectedItems.value);
+    if (isSelected) {
+      updateItems.remove(itemId);
+    } else {
+      updateItems.add(itemId);
+    }
+    selectedItems.value = updateItems;
   }
 
   /// modalの結果を取得
@@ -56,14 +69,14 @@ _ModalController _useModalController(WidgetRef ref) {
       );
   // <- 状態の変更を行う関数を定義
 
-  // INFO: modalの状態、関数をを返す
+  // INFO: modalの状態、関数を返す
   return (
     isSwitchOn: isSwitchOn.value,
     selectedItems: selectedItems.value,
     isDoneEnabled: isDoneEnabled.value,
     textController: textController,
     setSwitch: setSwitch,
-    setSelectedItems: setSelectedItems,
+    selectItem: selectItem,
     getResult: getResult,
   );
 }

@@ -17,9 +17,12 @@ class OrangeModal extends HookConsumerWidget {
   static Future<OrangeModalResult?> show(BuildContext context) async {
     return showModalBottomSheet<OrangeModalResult?>(
       context: context,
+      showDragHandle: true,
       builder: (context) => const OrangeModal(),
     );
   }
+
+  static const _itemIds = ['A', 'B', 'C'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,13 +30,17 @@ class OrangeModal extends HookConsumerWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 40,
+        spacing: 14,
         children: [
-          TextField(
-            controller: modalController.textController,
-            decoration: const InputDecoration(
-              labelText: 'Enter text',
-              border: OutlineInputBorder(),
+          const Text('Orange Modal'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: TextField(
+              controller: modalController.textController,
+              decoration: const InputDecoration(
+                labelText: 'Enter text',
+                border: OutlineInputBorder(),
+              ),
             ),
           ),
           SwitchListTile(
@@ -41,21 +48,27 @@ class OrangeModal extends HookConsumerWidget {
             title: const Text('Switch'),
             onChanged: (_) => modalController.setSwitch(),
           ),
-          ElevatedButton(
-            onPressed: modalController.setSelectedItems,
-            style: modalController.selectedItems.isNotEmpty
-                ? ElevatedButton.styleFrom(backgroundColor: Colors.blue)
-                : null,
-            child: const Text('Select Items'),
+          Column(
+            children: _itemIds.map((id) {
+              return CheckboxListTile(
+                value: modalController.selectedItems.contains(id),
+                title: Text('Select Item $id'),
+                onChanged: (_) => modalController.selectItem(id),
+              );
+            }).toList(),
           ),
-          ElevatedButton(
-            onPressed: modalController.isDoneEnabled
-                ? () {
-                    final result = modalController.getResult();
-                    Navigator.pop(context, result);
-                  }
-                : null,
-            child: const Text('Done'),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: modalController.isDoneEnabled
+                  ? () {
+                      final result = modalController.getResult();
+                      Navigator.pop(context, result);
+                    }
+                  : null,
+              child: const Text('Done'),
+            ),
           ),
         ],
       ),

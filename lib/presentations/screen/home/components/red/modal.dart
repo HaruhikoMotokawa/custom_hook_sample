@@ -32,9 +32,13 @@ class RedModal extends HookWidget {
             onChanged: (_) => bananaSwitchController.setBananaSwitch(),
             title: const Text('Banana Switch'),
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('close'),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('close'),
+            ),
           ),
         ],
       ),
