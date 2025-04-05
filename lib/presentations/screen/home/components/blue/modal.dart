@@ -56,20 +56,14 @@ class BlueModal extends HookConsumerWidget {
             title: const Text('Switch'),
             onChanged: (_) => viewModel.setSwitch(),
           ),
-          CheckboxListTile(
-            value: state.selectedItems.contains(_itemIds[0]),
-            title: const Text('Select Item A'),
-            onChanged: (_) => viewModel.setSelectedItems(_itemIds[0]),
-          ),
-          CheckboxListTile(
-            value: state.selectedItems.contains(_itemIds[1]),
-            title: const Text('Select Item B'),
-            onChanged: (_) => viewModel.setSelectedItems(_itemIds[1]),
-          ),
-          CheckboxListTile(
-            value: state.selectedItems.contains(_itemIds[2]),
-            title: const Text('Select Item C'),
-            onChanged: (_) => viewModel.setSelectedItems(_itemIds[2]),
+          Column(
+            children: _itemIds.map((id) {
+              return CheckboxListTile(
+                value: state.selectedItems.contains(id),
+                title: Text('Select Item $id'),
+                onChanged: (_) => viewModel.selectItem(id),
+              );
+            }).toList(),
           ),
           SizedBox(
             width: 300,

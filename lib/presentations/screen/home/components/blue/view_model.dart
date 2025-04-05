@@ -14,6 +14,7 @@ class BlueModalState with _$BlueModalState {
     @Default({}) Set<String> selectedItems,
   }) = _BlueModalState;
 
+  // getterを追加するために必要
   const BlueModalState._();
 
   // 全ての値がからではない時にdoneを押せるようにする
@@ -25,11 +26,12 @@ class BlueModalState with _$BlueModalState {
 class BlueModalViewModel extends _$BlueModalViewModel {
   @override
   BlueModalState build() {
+    // 背景色の変更を監視
     final subscription = ref.listen(backgroundColorProvider, (_, __) {
       // 初期値に戻す
       state = const BlueModalState();
     });
-
+    // 自身が破棄された時に、subscriptionをcloseする
     ref.onDispose(subscription.close);
     return const BlueModalState();
   }
@@ -38,25 +40,26 @@ class BlueModalViewModel extends _$BlueModalViewModel {
     state = state.copyWith(inputText: text);
   }
 
+  /// isSwitchOnの入力
   void setSwitch() {
     state = state.copyWith(isSwitchOn: !state.isSwitchOn);
   }
 
-  void setSelectedItems(String itemId) {
+  /// itemを選択する
+  void selectItem(String itemId) {
     final isSelected = state.selectedItems.contains(itemId);
-    final updateItems = <String>{};
+
+    final updateItems = <String>{}..addAll(state.selectedItems);
     if (isSelected) {
-      updateItems
-        ..addAll(state.selectedItems)
-        ..remove(itemId);
+      updateItems.remove(itemId);
     } else {
-      updateItems
-        ..addAll(state.selectedItems)
-        ..add(itemId);
+      updateItems.add(itemId);
     }
+
     state = state.copyWith(selectedItems: updateItems);
   }
 
+  /// modalの結果を取得
   BlueModalResult getResult() => (
         inputText: state.inputText,
         isSwitchOn: state.isSwitchOn,
