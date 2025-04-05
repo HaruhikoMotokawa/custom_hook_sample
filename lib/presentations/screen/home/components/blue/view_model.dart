@@ -38,9 +38,8 @@ class BlueModalViewModel extends _$BlueModalViewModel {
     state = state.copyWith(inputText: text);
   }
 
-  // ignore: avoid_positional_boolean_parameters
-  void setSwitch(bool value) {
-    state = state.copyWith(isSwitchOn: value);
+  void setSwitch() {
+    state = state.copyWith(isSwitchOn: !state.isSwitchOn);
   }
 
   void setSelectedItems(String itemId) {
