@@ -34,13 +34,13 @@ _ModalController _useModalController(WidgetRef ref) {
   );
 
   // [textIsNotEmpty], [selectedItems]の値を監視
-  // 上記の3つが全て編集された場合はisDoneEnabledの値をtrueにする
+  // 上記の2つが全て編集された場合はisDoneEnabledの値をtrueにする
   useEffect(
     () {
       isDoneEnabled.value = textIsNotEmpty && selectedItems.value.isNotEmpty;
       return null;
     },
-    [textIsNotEmpty, isSwitchOn.value, selectedItems.value],
+    [textIsNotEmpty, selectedItems.value],
   );
   // <- 値の変更を監視して、副作用の処理を定義
 
