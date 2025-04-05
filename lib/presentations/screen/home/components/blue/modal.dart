@@ -26,7 +26,7 @@ class BlueModal extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(blueModalViewModelProvider);
-    final viewModel = ref.read(blueModalViewModelProvider.notifier);
+    final viewModel = ref.watch(blueModalViewModelProvider.notifier);
 
     final textController = useTextEditingController(text: '');
     final textIsNotEmpty = useListenableSelector(
