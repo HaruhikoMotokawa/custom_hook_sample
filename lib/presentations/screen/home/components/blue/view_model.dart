@@ -46,8 +46,8 @@ class BlueModalViewModel extends _$BlueModalViewModel {
   }
 
   /// doneボタンを活性化させることができるかどうか
-  bool isDoneEnabled(String inputText) =>
-      inputText.isNotEmpty && state.selectedItems.isNotEmpty;
+  bool isDoneEnabled({required bool textIsNotEmpty}) =>
+      textIsNotEmpty && state.selectedItems.isNotEmpty;
 
   /// modalの結果を取得
   BlueModalResult getResult(String inputText) => (

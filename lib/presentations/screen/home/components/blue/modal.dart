@@ -29,6 +29,10 @@ class BlueModal extends HookConsumerWidget {
     final viewModel = ref.read(blueModalViewModelProvider.notifier);
 
     final textController = useTextEditingController(text: '');
+    final textIsNotEmpty = useListenableSelector(
+      textController,
+      () => textController.text.isNotEmpty,
+    );
 
     ref.listen(backgroundColorProvider, (_, __) {
       textController.clear();
@@ -68,7 +72,7 @@ class BlueModal extends HookConsumerWidget {
             width: 300,
             height: 50,
             child: ElevatedButton(
-              onPressed: viewModel.isDoneEnabled(textController.text)
+              onPressed: viewModel.isDoneEnabled(textIsNotEmpty: textIsNotEmpty)
                   ? () {
                       final result = viewModel.getResult(textController.text);
                       Navigator.pop(context, result);
