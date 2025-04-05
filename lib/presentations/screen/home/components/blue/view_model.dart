@@ -9,17 +9,9 @@ part 'view_model.g.dart';
 @freezed
 class BlueModalState with _$BlueModalState {
   const factory BlueModalState({
-    @Default('') String inputText,
     @Default(false) bool isSwitchOn,
     @Default({}) Set<String> selectedItems,
   }) = _BlueModalState;
-
-  // getterを追加するために必要
-  const BlueModalState._();
-
-  // 全ての値がからではない時にdoneを押せるようにする
-  bool get isDoneEnabled =>
-      inputText.isNotEmpty && isSwitchOn && selectedItems.isNotEmpty;
 }
 
 @riverpod
@@ -36,14 +28,8 @@ class BlueModalViewModel extends _$BlueModalViewModel {
     return const BlueModalState();
   }
 
-  void setInputText(String text) {
-    state = state.copyWith(inputText: text);
-  }
-
   /// isSwitchOnの入力
-  void setSwitch() {
-    state = state.copyWith(isSwitchOn: !state.isSwitchOn);
-  }
+  void setSwitch() => state = state.copyWith(isSwitchOn: !state.isSwitchOn);
 
   /// itemを選択する
   void selectItem(String itemId) {
@@ -59,9 +45,13 @@ class BlueModalViewModel extends _$BlueModalViewModel {
     state = state.copyWith(selectedItems: updateItems);
   }
 
+  /// doneボタンを活性化させることができるかどうか
+  bool isDoneEnabled(String inputText) =>
+      inputText.isNotEmpty && state.selectedItems.isNotEmpty;
+
   /// modalの結果を取得
-  BlueModalResult getResult() => (
-        inputText: state.inputText,
+  BlueModalResult getResult(String inputText) => (
+        inputText: inputText,
         isSwitchOn: state.isSwitchOn,
         selectedItems: state.selectedItems
       );

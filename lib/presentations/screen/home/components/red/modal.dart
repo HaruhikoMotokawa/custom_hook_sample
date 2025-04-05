@@ -63,13 +63,14 @@ BananaSwitchController useBananaSwitchController() {
   );
 }
 
-// (bool, void Function()) useBananaSwitchController() {
-//   final isBananaSwitch = useState(false);
+// 上はこれと同じ
+(bool, void Function()) useBananaSwitchControllerExample() {
+  final isBananaSwitch = useState(false);
 
-//   void setBananaSwitch() => isBananaSwitch.value = !isBananaSwitch.value;
+  void setBananaSwitch() => isBananaSwitch.value = !isBananaSwitch.value;
 
-//   return (
-//     isBananaSwitch.value,
-//     setBananaSwitch,
-//   );
-// }
+  return (
+    isBananaSwitch.value,
+    setBananaSwitch,
+  );
+}

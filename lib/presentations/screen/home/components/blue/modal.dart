@@ -29,7 +29,7 @@ class BlueModal extends HookConsumerWidget {
     final state = ref.watch(provider);
     final viewModel = ref.read(provider.notifier);
 
-    final textController = useTextEditingController(text: state.inputText);
+    final textController = useTextEditingController(text: '');
 
     ref.listen(backgroundColorProvider, (_, __) {
       textController.clear();
@@ -49,7 +49,6 @@ class BlueModal extends HookConsumerWidget {
                 labelText: 'Enter text',
                 border: OutlineInputBorder(),
               ),
-              onChanged: viewModel.setInputText,
             ),
           ),
           SwitchListTile(
@@ -70,9 +69,9 @@ class BlueModal extends HookConsumerWidget {
             width: 300,
             height: 50,
             child: ElevatedButton(
-              onPressed: state.isDoneEnabled
+              onPressed: viewModel.isDoneEnabled(textController.text)
                   ? () {
-                      final result = viewModel.getResult();
+                      final result = viewModel.getResult(textController.text);
                       Navigator.pop(context, result);
                     }
                   : null,
