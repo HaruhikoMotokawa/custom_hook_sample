@@ -1,6 +1,6 @@
 part of 'modal.dart';
 
-typedef OrangeModalController = ({
+typedef _ModalController = ({
   bool isSwitchOn,
   Set<String> selectedItems,
   bool isDoneEnabled,
@@ -10,7 +10,7 @@ typedef OrangeModalController = ({
   OrangeModalResult Function() getResult,
 });
 
-OrangeModalController _useModalController(WidgetRef ref) {
+_ModalController _useModalController(WidgetRef ref) {
   // INFO: modalの状態を定義 ->
   final textController = useTextEditingController(text: '');
   final isSwitchOn = useState(false);
